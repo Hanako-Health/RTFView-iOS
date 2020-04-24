@@ -1,0 +1,6 @@
+framework module Pods_RTFView_Example {
+  umbrella header "Pods-RTFView_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

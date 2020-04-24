@@ -1,0 +1,24 @@
+PODS:
+  - RTFView (0.1.0):
+    - SnapKit
+  - SnapKit (5.0.1)
+
+DEPENDENCIES:
+  - RTFView (from `../`)
+  - SnapKit
+
+SPEC REPOS:
+  trunk:
+    - SnapKit
+
+EXTERNAL SOURCES:
+  RTFView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  RTFView: 3fd8eb7df8b48364f457106810d1915cd6fcccf9
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+
+PODFILE CHECKSUM: 385edb7f40ae03707dc5e57d2040ad587e10517c
+
+COCOAPODS: 1.9.1

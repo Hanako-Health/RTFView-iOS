@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		636F1C4C2452BB8300BF7F3B /* UIColor+HexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636F1C492452BB8200BF7F3B /* UIColor+HexString.swift */; };
+		636F1C4D2452BB8300BF7F3B /* TestRTFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636F1C4A2452BB8200BF7F3B /* TestRTFView.swift */; };
+		636F1C4E2452BB8300BF7F3B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636F1C4B2452BB8200BF7F3B /* ViewController.swift */; };
 		6E6E982AC15E04F20F0D744A /* Pods_RTFView_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC46B17B5D7D3B2AB0087B37 /* Pods_RTFView_Example.framework */; };
 		88CE1AF4299998DD2D9DB1D7 /* Pods_RTFView_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 230F00BDC2EED65C0E98692A /* Pods_RTFView_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -29,23 +31,25 @@
 
 /* Begin PBXFileReference section */
 		230F00BDC2EED65C0E98692A /* Pods_RTFView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RTFView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		32B9870150299EA00936DC6E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		32B9870150299EA00936DC6E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		38942FADA13A1E97F1C3BE4F /* Pods-RTFView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTFView_Tests.release.xcconfig"; path = "Target Support Files/Pods-RTFView_Tests/Pods-RTFView_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		3A56477B06477537028A1F8F /* Pods-RTFView_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTFView_Tests.debug.xcconfig"; path = "Target Support Files/Pods-RTFView_Tests/Pods-RTFView_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		3AE3BBFCCF89411071471780 /* RTFView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = RTFView.podspec; path = ../RTFView.podspec; sourceTree = "<group>"; };
+		3AE3BBFCCF89411071471780 /* RTFView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RTFView.podspec; path = ../RTFView.podspec; sourceTree = "<group>"; };
 		49D526F4330A048D777C99B5 /* Pods-RTFView_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTFView_Example.release.xcconfig"; path = "Target Support Files/Pods-RTFView_Example/Pods-RTFView_Example.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* RTFView_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTFView_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* RTFView_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RTFView_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		636F1C492452BB8200BF7F3B /* UIColor+HexString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+HexString.swift"; sourceTree = "<group>"; };
+		636F1C4A2452BB8200BF7F3B /* TestRTFView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestRTFView.swift; sourceTree = "<group>"; };
+		636F1C4B2452BB8200BF7F3B /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7EB9DDBF519EC6EA7110062D /* Pods-RTFView_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RTFView_Example.debug.xcconfig"; path = "Target Support Files/Pods-RTFView_Example/Pods-RTFView_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		CC3251AADE8A14D3EB52CCFD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		CC3251AADE8A14D3EB52CCFD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		FC46B17B5D7D3B2AB0087B37 /* Pods_RTFView_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RTFView_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -77,7 +81,6 @@
 				3A56477B06477537028A1F8F /* Pods-RTFView_Tests.debug.xcconfig */,
 				38942FADA13A1E97F1C3BE4F /* Pods-RTFView_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -105,8 +108,10 @@
 		607FACD21AFB9204008FA782 /* Example for RTFView */ = {
 			isa = PBXGroup;
 			children = (
+				636F1C4A2452BB8200BF7F3B /* TestRTFView.swift */,
+				636F1C492452BB8200BF7F3B /* UIColor+HexString.swift */,
+				636F1C4B2452BB8200BF7F3B /* ViewController.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -213,10 +218,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = PL4YWAM25J;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = PL4YWAM25J;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -227,6 +234,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -292,10 +300,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-RTFView_Example/Pods-RTFView_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/RTFView/RTFView.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RTFView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -331,8 +341,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				636F1C4C2452BB8300BF7F3B /* UIColor+HexString.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				636F1C4E2452BB8300BF7F3B /* ViewController.swift in Sources */,
+				636F1C4D2452BB8300BF7F3B /* TestRTFView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,7 +490,9 @@
 			baseConfigurationReference = 7EB9DDBF519EC6EA7110062D /* Pods-RTFView_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PL4YWAM25J;
 				INFOPLIST_FILE = RTFView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -493,7 +507,9 @@
 			baseConfigurationReference = 49D526F4330A048D777C99B5 /* Pods-RTFView_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PL4YWAM25J;
 				INFOPLIST_FILE = RTFView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -507,6 +523,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3A56477B06477537028A1F8F /* Pods-RTFView_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = PL4YWAM25J;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -529,6 +546,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 38942FADA13A1E97F1C3BE4F /* Pods-RTFView_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = PL4YWAM25J;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",

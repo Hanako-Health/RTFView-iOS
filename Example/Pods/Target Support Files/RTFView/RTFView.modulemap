@@ -1,0 +1,6 @@
+framework module RTFView {
+  umbrella header "RTFView-umbrella.h"
+
+  export *
+  module * { export * }
+}
