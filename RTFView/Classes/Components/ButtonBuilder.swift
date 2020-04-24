@@ -29,7 +29,7 @@ public struct ButtonBuilder: RTFBuild {
 		let imageView = UIImageView(image: image)
 		
 		labelView.translatesAutoresizingMaskIntoConstraints = false
-		imageView.contentMode = .scaleAspectFit
+		imageView.contentMode = .center
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		container.addGestureRecognizer(TapRecognizer {
 			guard
