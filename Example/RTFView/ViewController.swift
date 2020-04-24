@@ -32,7 +32,9 @@ class ViewController: UIViewController {
 		let rtfView = TestRTFView()
 		view.addSubview(rtfView)
 		rtfView.snp.makeConstraints {
-			$0.left.right.top.equalToSuperview()
+			$0.left.equalTo(16)
+			$0.right.equalTo(-16)
+			$0.top.equalTo(44)
 		}
 		
 		// Trigger parsing and view building
