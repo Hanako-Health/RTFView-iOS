@@ -10,17 +10,23 @@ import Foundation
 import UIKit
 
 public struct SpaceBuilder: RTFBuild {
-	let space: CGFloat
+	weak var delegate: RTFDelegate?
 	
-	public init(space: CGFloat) {
-		self.space = space
+	public init(delegate: RTFDelegate) {
+		self.delegate = delegate
 	}
 	
 	public func build(for tokens: [Token]) -> UIView {
+		guard
+			let first = tokens.first,
+			let delegate = delegate,
+			let param = delegate.parameter(for: first),
+			let space = NumberFormatter().number(from: param)
+			else { return UIView() }
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
-			view.heightAnchor.constraint(equalToConstant: space)
+			view.heightAnchor.constraint(equalToConstant: CGFloat(truncating: space))
 		])
 		return view
 	}

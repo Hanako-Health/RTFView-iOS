@@ -54,7 +54,7 @@ public struct LabelBuilder: RTFBuild {
 		paragraph.lineBreakMode = .byWordWrapping
 		
 		
-		if contains("U") { attributes[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.single }
+		if contains("U") { attributes[.underlineStyle] = NSUnderlineStyle.single.rawValue }
 		if contains("B") { font = font.add(trait: .traitBold) }
 		if contains("I") { font = font.add(trait: .traitItalic) }
 		

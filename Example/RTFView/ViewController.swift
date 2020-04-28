@@ -26,6 +26,8 @@ class ViewController: UIViewController {
 		+ "[L1=marco.seidel@envidual.com]Mail nach draußen[/L1]"
 		+ "[L2=+0123456789]Anruf nach draußen[/L2]"
 	
+	let testString2 = "[S1]Titel: Beispiel[/S1][S3]\n\n\n\n\n\nNormal\n\n\n[B]Fett[/B]\n\n\n[I]Kursiv[/I]\n[U]Unterstrichen[/U]\n\n\n\n[/S3][IMG=BUNDLE /]"
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Setup view
@@ -38,7 +40,7 @@ class ViewController: UIViewController {
 		}
 		
 		// Trigger parsing and view building
-		rtfView.text = testString
+		rtfView.text = testString2
 	}
 
     override func didReceiveMemoryWarning() {

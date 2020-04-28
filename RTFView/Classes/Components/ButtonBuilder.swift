@@ -10,18 +10,21 @@ import Foundation
 import UIKit
 
 public struct ButtonBuilder: RTFBuild {
-	weak var open: RTFLinkOpen?
-	weak var selector: RTFParameterSelector?
+	weak var delegate: RTFDelegate?
 	
 	let label: RTFBuild
 	let image: UIImage
 	
-	public init(open: RTFLinkOpen?, selector: RTFParameterSelector?, label: RTFBuild, image: UIImage) {
-		self.open = open
-		self.selector = selector
+	public init(
+		delegate: RTFDelegate?,
+		label: RTFBuild,
+		image: UIImage
+	) {
+		self.delegate = delegate
 		self.label = label
 		self.image = image
 	}
+	
 	
 	public func build(for tokens: [Token]) -> UIView {
 		let container = UIView()
@@ -33,12 +36,10 @@ public struct ButtonBuilder: RTFBuild {
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		container.addGestureRecognizer(TapRecognizer {
 			guard
-				let selector = self.selector,
-				let open = self.open,
-				let first = tokens.first,
-				let parameter = selector.getParameter(for: first)
+				let delegate = self.delegate,
+				let first = tokens.first
 				else { return }
-			open.open(for: parameter)
+			delegate.event(for: first, in: container)
 		})
 		
 		container.addSubview(labelView)

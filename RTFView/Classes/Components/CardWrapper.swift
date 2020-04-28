@@ -24,18 +24,8 @@ public struct CardWrapper: RTFBuild {
 		let content = wrapped.build(for: tokens)
 		content.layer.cornerRadius = radius
 		content.backgroundColor = color
+		content.clipsToBounds = true
 		return content
-		/*let card = UIView()
-		card.layer.cornerRadius = radius
-		card.backgroundColor = color
-		card.addSubview(content)
-		NSLayoutConstraint.activate([
-			content.leftAnchor.constraint(equalTo: card.leftAnchor),
-			content.rightAnchor.constraint(equalTo: card.rightAnchor),
-			content.topAnchor.constraint(equalTo: card.topAnchor),
-			content.bottomAnchor.constraint(equalTo: card.bottomAnchor)
-		])
-		return card*/
 	}
 	
 }

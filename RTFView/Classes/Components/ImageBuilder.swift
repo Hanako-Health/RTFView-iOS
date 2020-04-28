@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 
 public struct ImageBuilder: RTFBuild {
-	weak var loader: RTFImageLoad?
-	let typeId: String
+	weak var delegate: RTFDelegate?
 	
-	public init(loader: RTFImageLoad?, typeId: String) {
-		self.loader = loader
-		self.typeId = typeId
+	public init(
+		delegate: RTFDelegate?
+	) {
+		self.delegate = delegate
 	}
 	
 	public func build(for tokens: [Token]) -> UIView {
@@ -26,9 +26,7 @@ public struct ImageBuilder: RTFBuild {
 			NSLayoutConstraint.activate([
 				view.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 9.0 / 16.0)
 			])
-			if let image = $0.tags.first(where: { $0.type == typeId })?.parameter {
-				loader?.load(for: image, into: view)
-			}
+			delegate?.event(for: $0, in: view)
 			return view
 		}.forEach {
 			container.addSubview($0)

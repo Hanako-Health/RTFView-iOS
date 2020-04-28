@@ -11,22 +11,22 @@ import UIKit
 
 public struct SegmentBuilder: RTFBuild {
 	let wrapped: RTFBuild
-	weak var selector: RTFTypeSelector?
+	weak var delegate: RTFDelegate?
 	
-	public init(wrapped: RTFBuild, selector: RTFTypeSelector?) {
+	public init(wrapped: RTFBuild, delegate: RTFDelegate?) {
 		self.wrapped = wrapped
-		self.selector = selector
+		self.delegate = delegate
 	}
 	
 	public func build(for tokens: [Token]) -> UIView {
-		guard let selector = self.selector else { return UIView() }
+		guard let delegate = delegate else { return UIView() }
 		let container = UIView()
 		tokens.reduce([[Token]]()) { result, token in
-			let type = selector.getType(for: token)
+			let type = delegate.type(for: token)
 			
 			var result = result
 			
-			if result.isEmpty || type != selector.getType(for: result.last!.first!) {
+			if result.isEmpty || type != delegate.type(for: result.last!.first!) {
 				result.append([token])
 			} else {
 				result[result.count - 1] = result.last! + [token]

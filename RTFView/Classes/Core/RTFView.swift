@@ -12,7 +12,7 @@ import UIKit
 open class RTFView: UIView {
 	
 	public lazy var rootBuild: RTFBuild = EmptyBuilder()
-	public lazy var parser: RTFParser = Parser()
+	public lazy var parser: RTFParser = FlatParser()
 	
 	public var text: String = "" {
 		didSet {

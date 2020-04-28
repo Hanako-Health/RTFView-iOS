@@ -8,14 +8,15 @@
 
 import Foundation
 
-class Parser: RTFParser {
+public class FlatParser: RTFParser {
 	static var TAG_START: Character = "["
 	static var TAG_END: Character = "]"
 	static var TAG_PARAMETER: Character = "="
 	static var TAG_CLOSE: Character = "/"
 	
+	public init() {}
 	
-	func parse(input: String) -> [Token] {		
+	public func parse(input: String) -> [Token] {		
 		var output = [Token]()
 		var activeTags = [Tag]()
 		var content: String = ""
@@ -32,14 +33,14 @@ class Parser: RTFParser {
 			
 			
 			switch char {
-				case Parser.TAG_START:
+				case FlatParser.TAG_START:
 					if !content.isEmpty {
 						output += [Token(text: content, tags: activeTags)]
 						content = ""
 					}
 					tagInside = true
 					break
-				case Parser.TAG_END:
+				case FlatParser.TAG_END:
 					if tagInside {
 						if tagClose {
 							if let indexToRemove: Int = activeTags.lastIndex(where: { $0.type == tagIdentifier }) {
@@ -56,14 +57,20 @@ class Parser: RTFParser {
 					tagClose = false
 					tagInside = false
 					break
-				case Parser.TAG_CLOSE:
+				case FlatParser.TAG_CLOSE:
+					if let p = tagParameter, !p.isEmpty {
+						let tag = Tag(type: tagIdentifier, parameter: p)
+						activeTags.append(tag)
+						output += [Token(text: "", tags: activeTags)]
+					}
+					
 					tagClose = true
 					break
-				case Parser.TAG_PARAMETER:
+				case FlatParser.TAG_PARAMETER:
 					index += 1
 					let offset = input[index...].string
 						.enumerated()
-						.first { (index, s) in s == Parser.TAG_END }!
+						.first { (index, s) in s == FlatParser.TAG_END || s.isWhitespace }!
 						.offset
 	
 					tagParameter = input[index..<(index + offset)].string
@@ -71,7 +78,9 @@ class Parser: RTFParser {
 					continue
 				default:
 					if tagInside {
-						tagIdentifier += char.string
+						if !char.isWhitespace {
+							tagIdentifier += char.string
+						}
 					} else {
 						content += char.string
 					}

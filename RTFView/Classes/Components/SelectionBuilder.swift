@@ -11,18 +11,18 @@ import UIKit
 
 public struct SelectionBuilder: RTFBuild {
 	let mapping: [String?:RTFBuild]
-	weak var selector: RTFTypeSelector?
+	weak var delegate: RTFDelegate?
 	
-	public init(mapping: [String?:RTFBuild], selector: RTFTypeSelector?) {
+	public init(mapping: [String?:RTFBuild], delegate: RTFDelegate?) {
 		self.mapping = mapping
-		self.selector = selector
+		self.delegate = delegate
 	}
 	
 	public func build(for tokens: [Token]) -> UIView {
 		guard
-			let selector = self.selector,
+			let delegate = delegate,
 			let first = tokens.first,
-			let build = mapping[selector.getType(for: first)]
+			let build = mapping[delegate.type(for: first)]
 			else { return UIView() }
 		return build.build(for: tokens)
 	}
