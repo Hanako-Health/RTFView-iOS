@@ -10,61 +10,76 @@ import Foundation
 import UIKit
 
 public struct LabelBuilder: RTFBuild {
-	let color: UIColor
-	let size: CGFloat
-	let indent: CGFloat
-	
-	public init(color: UIColor, size: CGFloat, indent: CGFloat) {
-		self.color = color
-		self.size = size
-		self.indent = indent
- 	}
+	weak var delegate: RTFDelegate?
+    let indent: CGFloat
+    
+    public init(delegate: RTFDelegate?, indent: CGFloat = 0) {
+		self.delegate = delegate
+        self.indent = indent
+    }
 	
 	public func build(for tokens: [Token]) -> UIView {
-		let label = UILabel()
+        guard !tokens.isEmpty else { return UIView() }
+        
+        let text = tokens.map { $0.text }.joined()
+        let range = NSRange(0..<text.count)
+        
+        let label = UILabel()
+        label.text = text
 		label.numberOfLines = 0
-		label.attributedText = buildAttributedString(for: tokens)
+        delegate?.event(for: tokens.first!, in: label)
+        
+        let string: NSMutableAttributedString = label.attributedText == nil
+            ? .init()
+            : .init(attributedString: label.attributedText!)
+                
+        let font = label.font
+            ?? (string.attribute(NSAttributedString.Key.font, at: 0, effectiveRange: nil) as? UIFont)
+            ?? UIFont.systemFont(ofSize: UIFont.systemFontSize)
+                
+        let color = label.textColor
+            ?? (string.attribute(NSAttributedString.Key.foregroundColor, at: 0, effectiveRange: nil) as? UIColor)
+            ?? UIColor.black
+        
+        let paragraph = string.attribute(NSAttributedString.Key.font, at: 0, effectiveRange: nil)
+            as? NSMutableParagraphStyle
+            ?? NSMutableParagraphStyle()
+        paragraph.addTabStop(NSTextTab(textAlignment: .left, location: indent, options: [:]))
+        paragraph.defaultTabInterval = indent
+        paragraph.headIndent = indent
+        paragraph.lineBreakMode = .byWordWrapping
+        
+        var index = 0
+        for token in tokens {
+            let tokenRange = NSRange(index..<(index + token.text.count))
+            
+            
+            if token.contains(type: "U") {
+                string.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: tokenRange)
+            }
+            
+            var tokenFont = font.copyFont()
+            
+            
+            if token.contains(type: "I") {
+                tokenFont = tokenFont.add(trait: .traitItalic)
+            }
+            
+            if token.contains(type: "B") {
+                tokenFont = tokenFont.add(trait: .traitBold)
+            }
+            
+            string.addAttribute(.font, value: tokenFont, range: tokenRange)
+            string.addAttribute(.paragraphStyle, value: paragraph, range: tokenRange)
+            
+            index += token.text.count
+        }
+        
+        string.addAttribute(.foregroundColor, value: color, range: range)
+        
+        label.attributedText = string
+        
 		return label
 	}
-	
-	private func buildAttributedString(for tokens: [Token]) -> NSMutableAttributedString {
-		let completeText = tokens.map { $0.text }.joined()
-		let result = NSMutableAttributedString(string: completeText, attributes: nil)
-		
-		var index = 0
-		for token in tokens {
-			let range = index..<(index + token.text.count)
-			let attrs = buildAttributes(for: Array(token.tags))
-			result.addAttributes(attrs, range: NSRange(range))
-			index += token.text.count
-		}
-	
-		return result
-	}
-	
-	private func buildAttributes(for tags: [Tag]) -> [NSAttributedString.Key:Any] {
-		let contains: (String) -> Bool = tags.map { $0.type }.contains
-		var attributes = [NSAttributedString.Key:Any]()
-		let paragraph = NSMutableParagraphStyle()
-		var font = UIFont.systemFont(ofSize: size)
-		
-		paragraph.addTabStop(NSTextTab(textAlignment: .left, location: indent, options: [:]))
-		paragraph.defaultTabInterval = indent
-		paragraph.headIndent = indent
-		paragraph.lineBreakMode = .byWordWrapping
-		
-		
-		if contains("U") { attributes[.underlineStyle] = NSUnderlineStyle.single.rawValue }
-		if contains("B") { font = font.add(trait: .traitBold) }
-		if contains("I") { font = font.add(trait: .traitItalic) }
-		
-		attributes[NSAttributedString.Key.font] = font
-		attributes[NSAttributedString.Key.foregroundColor] = color
-		attributes[NSAttributedString.Key.paragraphStyle] = paragraph
-		
-		
-		return attributes
-	}
-	
 	
 }

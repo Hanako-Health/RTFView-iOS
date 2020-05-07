@@ -21,12 +21,11 @@ class TestRTFView: RTFView, RTFDelegate {
 	
 	// Components
 	
-	private lazy var labelDef = LabelBuilder(color: UIColor.darkGray, size: sizeDef, indent: 0)
-	private lazy var labelList = LabelBuilder(color: UIColor.darkGray, size: sizeDef, indent: 20)
-	private lazy var labelLink = LabelBuilder(color: UIColor.blue, size: sizeDef, indent: 0)
-	private lazy var labelTitle = LabelBuilder(color: UIColor.darkGray, size: sizeTitle, indent: 0)
+    private lazy var label = LabelBuilder(delegate: self)
+	private lazy var labelList = LabelBuilder(delegate: self, indent: 20)
+    
 	private lazy var header = IndentWrapper(
-		wrapped: labelTitle,
+		wrapped: label,
 		insets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
 	)
 	private lazy var bullet = CardWrapper(
@@ -51,7 +50,7 @@ class TestRTFView: RTFView, RTFDelegate {
 	)
 	private lazy var card = CardWrapper(
 		wrapped: IndentWrapper(
-			wrapped: labelDef,
+			wrapped: label,
 			insets: cardInset
 		),
 		color: UIColor.gray,
@@ -72,7 +71,7 @@ class TestRTFView: RTFView, RTFDelegate {
 	// Setup
 	
 	private lazy var mapping = [
-		nil : labelDef,
+		nil : label,
 		"S1" : header,
 		"S2" : bullet,
 		"S3" : enumeration,
@@ -86,17 +85,10 @@ class TestRTFView: RTFView, RTFDelegate {
 	private lazy var selection = SelectionBuilder(mapping: mapping, delegate: self)
 	private lazy var segment = SegmentBuilder(wrapped: selection, delegate: self)
 	
-	// Override
-	
-	init() {
-		super.init(frame: .zero)
-		rootBuild = ListLayoutWrapper(wrapped: segment, spacing: 8)
-	}
-	
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
-		rootBuild = ListLayoutWrapper(wrapped: segment, spacing: 8)
-	}
+    override var root: RTFBuild { ListLayoutWrapper(wrapped: segment, spacing: 8) }
+    override var parser: RTFParser { FlatParser() }
+    
+	// Delegate
 	
 	func type(for token: Token) -> String? {
 		getMainTag(for: token)?.type
@@ -107,7 +99,15 @@ class TestRTFView: RTFView, RTFDelegate {
 	}
 	
 	func event(for token: Token, in view: UIView) {
-		print("Event:\n\t\(token)\n\t\(view)")
+        if let label = view as? UILabel {
+            let size = token.contains(type: "S1") ? sizeTitle : sizeDef
+            let color: UIColor = token.contains(any: "L0", "L1", "L2") ? .blue : .lightGray
+            
+            label.font = .systemFont(ofSize: size)
+            label.textColor = color
+        } else if let image = view as? UIImageView {
+            print("Load \(parameter(for: token) ?? "??") into view: \(image)")
+        }
 	}
 	
 	// Helper
@@ -122,7 +122,7 @@ class TestRTFView: RTFView, RTFDelegate {
 			wrapped: IndentWrapper(
 				wrapped: ButtonBuilder(
 					delegate: self,
-					label: labelLink,
+					label: label,
 					image: image
 				),
 				insets: UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)

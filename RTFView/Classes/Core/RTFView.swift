@@ -10,17 +10,14 @@ import Foundation
 import UIKit
 
 open class RTFView: UIView {
-	
-	public lazy var rootBuild: RTFBuild = EmptyBuilder()
-	public lazy var parser: RTFParser = FlatParser()
+    
+	open var root: RTFBuild { EmptyBuilder() }
+	open var parser: RTFParser { EmptyParser() }
 	
 	public var text: String = "" {
 		didSet {
-			DispatchQueue.main.async {
-				self.clearView()
-				self.build(for: self.text)
-				self.setNeedsLayout()
-			}
+			self.clearView()
+            self.build(for: self.text)
 		}
 	}
 	
@@ -28,10 +25,9 @@ open class RTFView: UIView {
 		subviews.forEach { $0.removeFromSuperview() }
 	}
 	
-	
 	private func build(for input: String) {
 		let parsed = parser.parse(input: text)
-		let build = rootBuild.build(for: parsed)
+		let build = root.build(for: parsed)
 		build.translatesAutoresizingMaskIntoConstraints = false
 		addSubview(build)
 		addConstraints([
@@ -40,16 +36,6 @@ open class RTFView: UIView {
 			build.topAnchor.constraint(equalTo: topAnchor),
 			build.bottomAnchor.constraint(equalTo: bottomAnchor)
 		])
-	}
-	
-}
-
-extension UIFont {
-	
-	func add(trait: UIFontDescriptor.SymbolicTraits) -> UIFont {
-		let traits = UIFontDescriptor.SymbolicTraits(arrayLiteral: fontDescriptor.symbolicTraits, trait)
-		let descriptor = fontDescriptor.withSymbolicTraits(traits)!
-		return UIFont(descriptor: descriptor, size: pointSize)
 	}
 	
 }
