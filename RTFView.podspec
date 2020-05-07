@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'RTFView'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'Custom view transforming text with formatting tags into a view tree'
 
   s.description      = <<-DESC
