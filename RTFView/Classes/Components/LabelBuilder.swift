@@ -48,6 +48,15 @@ public struct LabelBuilder: RTFBuild {
         paragraph.defaultTabInterval = indent
         paragraph.headIndent = indent
         paragraph.lineBreakMode = .byWordWrapping
+    
+        if let paragraphStyle = string.attribute(NSAttributedString.Key.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle {
+            paragraph.lineSpacing = paragraphStyle.lineSpacing
+            paragraph.lineHeightMultiple = paragraphStyle.lineHeightMultiple
+            paragraph.paragraphSpacing = paragraphStyle.paragraphSpacing
+            paragraph.alignment = paragraphStyle.alignment
+        }
+        
+        let kerning = string.attribute(NSAttributedString.Key.kern, at: 0, effectiveRange: nil) as? CGFloat?
         
         var index = 0
         for token in tokens {
@@ -71,6 +80,9 @@ public struct LabelBuilder: RTFBuild {
             
             string.addAttribute(.font, value: tokenFont, range: tokenRange)
             string.addAttribute(.paragraphStyle, value: paragraph, range: tokenRange)
+            if let kerning = kerning {
+                string.addAttribute(.kern, value: kerning as Any, range: tokenRange)
+            }
             
             index += token.text.count
         }
