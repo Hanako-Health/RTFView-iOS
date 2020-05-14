@@ -41,13 +41,15 @@ public struct LabelBuilder: RTFBuild {
             ?? (string.attribute(NSAttributedString.Key.foregroundColor, at: 0, effectiveRange: nil) as? UIColor)
             ?? UIColor.black
         
-        let paragraph = string.attribute(NSAttributedString.Key.font, at: 0, effectiveRange: nil)
-            as? NSMutableParagraphStyle
-            ?? NSMutableParagraphStyle()
-        paragraph.addTabStop(NSTextTab(textAlignment: .left, location: indent, options: [:]))
-        paragraph.defaultTabInterval = indent
-        paragraph.headIndent = indent
-        paragraph.lineBreakMode = .byWordWrapping
+        let paragraphStyle = string.attribute(NSAttributedString.Key.paragraphStyle, at: 0, effectiveRange: nil) as? NSMutableParagraphStyle
+        if let paragraphStyle = paragraphStyle {
+            paragraphStyle.addTabStop(NSTextTab(textAlignment: .left, location: indent, options: [:]))
+            paragraphStyle.defaultTabInterval = indent
+            paragraphStyle.headIndent = indent
+            paragraphStyle.lineBreakMode = .byWordWrapping
+        }
+        
+        let kerning = string.attribute(NSAttributedString.Key.kern, at: 0, effectiveRange: nil) as? CGFloat?
         
         var index = 0
         for token in tokens {
@@ -70,7 +72,12 @@ public struct LabelBuilder: RTFBuild {
             }
             
             string.addAttribute(.font, value: tokenFont, range: tokenRange)
-            string.addAttribute(.paragraphStyle, value: paragraph, range: tokenRange)
+            if let paragraphStyle = paragraphStyle {
+                string.addAttribute(.paragraphStyle, value: paragraphStyle, range: tokenRange)
+            }
+            if let kerning = kerning {
+                string.addAttribute(.kern, value: kerning as Any, range: tokenRange)
+            }
             
             index += token.text.count
         }
