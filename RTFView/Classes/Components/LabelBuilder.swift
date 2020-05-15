@@ -68,7 +68,15 @@ public struct LabelBuilder: RTFBuild {
             }
             
             if token.contains(type: "B") {
-                tokenFont = tokenFont.add(trait: .traitBold)
+                let descriptor = tokenFont.fontDescriptor
+                var traits = (descriptor.object(forKey: .traits) as? [UIFontDescriptor.TraitKey:Any]) ?? [:]
+                let weightNumber = (traits[.weight] as? NSNumber)
+                let weightRaw = weightNumber == nil ? 0 : CGFloat(weightNumber!.doubleValue)
+                let weightNew = CGFloat.minimum(weightRaw + 0.6, 1.0)
+                traits[.weight] = NSNumber(value: Float(weightNew))
+                
+                let newDescriptor = descriptor.addingAttributes([.traits: traits])
+                tokenFont = UIFont(descriptor: newDescriptor, size: tokenFont.pointSize)
             }
             
             string.addAttribute(.font, value: tokenFont, range: tokenRange)
