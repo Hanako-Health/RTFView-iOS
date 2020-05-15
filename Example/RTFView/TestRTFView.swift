@@ -21,12 +21,11 @@ class TestRTFView: RTFView, RTFDelegate {
 	
 	// Components
 	
-    private lazy var label = LabelBuilder(delegate: self)
 	private lazy var labelList = LabelBuilder(delegate: self, indent: 20)
     
-	private lazy var header = IndentWrapper(
-		wrapped: label,
-		insets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+	private lazy var label = IndentWrapper(
+		wrapped: LabelBuilder(delegate: self),
+		insets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 	)
 	private lazy var bullet = CardWrapper(
 		wrapped: IndentWrapper(
@@ -72,7 +71,7 @@ class TestRTFView: RTFView, RTFDelegate {
 	
 	private lazy var mapping = [
 		nil : label,
-		"S1" : header,
+		"S1" : label,
 		"S2" : bullet,
 		"S3" : enumeration,
 		"S4" : card,
