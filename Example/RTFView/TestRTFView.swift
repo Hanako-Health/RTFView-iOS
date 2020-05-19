@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RTFView
 
-class TestRTFView: RTFView, RTFDelegate {
+class TestRTFView: RTFView, RTFDelegate, SpaceDelegate {
 	
 	// Constants
 	
@@ -21,10 +21,11 @@ class TestRTFView: RTFView, RTFDelegate {
 	
 	// Components
 	
+    private lazy var labelDef = LabelBuilder(delegate: self)
 	private lazy var labelList = LabelBuilder(delegate: self, indent: 20)
     
 	private lazy var label = IndentWrapper(
-		wrapped: LabelBuilder(delegate: self),
+		wrapped: labelDef,
 		insets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 	)
 	private lazy var bullet = CardWrapper(
@@ -49,7 +50,7 @@ class TestRTFView: RTFView, RTFDelegate {
 	)
 	private lazy var card = CardWrapper(
 		wrapped: IndentWrapper(
-			wrapped: label,
+			wrapped: labelDef,
 			insets: cardInset
 		),
 		color: UIColor.gray,
@@ -60,8 +61,7 @@ class TestRTFView: RTFView, RTFDelegate {
 			wrapped: ImageBuilder(delegate: self),
 			color: .red,
 			radius: radius
-		),
-		spacing: 0
+		)
 	)
 	private lazy var buttonLink = createButton(image: UIImage(systemName: "link")!)
 	private lazy var buttonMail = createButton(image: UIImage(systemName: "envelope.fill")!)
@@ -76,15 +76,16 @@ class TestRTFView: RTFView, RTFDelegate {
 		"S3" : enumeration,
 		"S4" : card,
 		"SP" : SpaceBuilder(delegate: self),
-		"L0" : buttonLink,
-		"L1" : buttonMail,
-		"L2" : buttonPhone,
+		"L1" : buttonLink,
+		"L2" : buttonMail,
+		"L3" : buttonPhone,
 		"IMG" : image
 	]
 	private lazy var selection = SelectionBuilder(mapping: mapping, delegate: self)
 	private lazy var segment = SegmentBuilder(wrapped: selection, delegate: self)
-	
-    override var root: RTFBuild { ListLayoutWrapper(wrapped: segment, spacing: 8) }
+	private lazy var layout = ListLayoutWrapper(wrapped: segment)
+    private lazy var spaceConfig = SpaceConfigWrapper(wrapped: layout, delegate: self)
+    override var root: RTFBuild { spaceConfig }
     override var parser: RTFParser { FlatParser() }
     
 	// Delegate
@@ -100,7 +101,7 @@ class TestRTFView: RTFView, RTFDelegate {
 	func event(for token: Token, in view: UIView) {
         if let label = view as? UILabel {
             let size = token.contains(type: "S1") ? sizeTitle : sizeDef
-            let color: UIColor = token.contains(any: "L0", "L1", "L2") ? .blue : .lightGray
+            let color: UIColor = token.contains(any: "L1", "L2", "L3") ? .blue : .lightGray
             
             label.font = .systemFont(ofSize: size)
             label.textColor = color
@@ -108,11 +109,34 @@ class TestRTFView: RTFView, RTFDelegate {
             print("Load \(parameter(for: token) ?? "??") into view: \(image)")
         }
 	}
+    
+    private let spaceHalf: CGFloat = 8
+    private let spaceDefault: CGFloat = 16
+    private let spaceDouble: CGFloat = 32
 	
+    func space(from token0: Token, to token1: Token) -> CGFloat? {
+        let type0 = type(for: token0)
+        let type1 = type(for: token1)
+        
+        guard type0 != type1 else { return nil }
+        guard type0 != "SP", type1 != "SP" else { return nil }
+        
+        if type1 == "S1" {
+            return spaceDouble
+        }
+        
+        let halfSpaceTokens = ["S2", "S3", "S4", "L1", "L2", "L3"]
+        if token0.contains(any: halfSpaceTokens), token1.contains(any: halfSpaceTokens) {
+            return spaceHalf
+        }
+        
+        return spaceDefault
+    }
+    
 	// Helper
 	
 	private func getMainTag(for token: Token) -> Tag? {
-		let types = ["S1", "S2", "S3", "S4", "L0", "L1", "L2", "SP", "P", "IMG"]
+		let types = ["S1", "S2", "S3", "S4", "L1", "L2", "L3", "SP", "P", "IMG"]
 		return token.tags.first { types.contains($0.type) }
 	}
 	

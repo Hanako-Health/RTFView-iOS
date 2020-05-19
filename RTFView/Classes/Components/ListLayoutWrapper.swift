@@ -11,11 +11,9 @@ import UIKit
 
 public struct ListLayoutWrapper: RTFBuild {
 	let wrapped: RTFBuild
-	let spacing: CGFloat
 	
-	public init(wrapped: RTFBuild, spacing: CGFloat) {
+	public init(wrapped: RTFBuild) {
 		self.wrapped = wrapped
-		self.spacing = spacing
 	}
 	
 	public func build(for tokens: [Token]) -> UIView {
@@ -33,7 +31,7 @@ public struct ListLayoutWrapper: RTFBuild {
 				])
 			} else {
 				NSLayoutConstraint.activate([
-					v.topAnchor.constraint(equalTo: view.subviews[i - 1].bottomAnchor, constant: spacing)
+					v.topAnchor.constraint(equalTo: view.subviews[i - 1].bottomAnchor)
 				])
 			}
 			
