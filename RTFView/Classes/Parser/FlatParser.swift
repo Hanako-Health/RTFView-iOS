@@ -56,7 +56,7 @@ public class FlatParser: RTFParser {
                     tagClose = false
                     tagInside = false
                 case FlatParser.TAG_CLOSE:
-                    if let p = tagParameter, !p.isEmpty {
+                    if !tagIdentifier.isEmpty {
                         let tag = Tag(type: tagIdentifier, parameter: p)
                         activeTags.append(tag)
                         output += [Token(text: "", tags: activeTags)]
