@@ -21,7 +21,7 @@ public struct LabelBuilder: RTFBuild {
 	public func build(for tokens: [Token]) -> UIView {
         guard !tokens.isEmpty else { return UIView() }
         
-        let text = tokens.map { $0.text }.joined().replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\n\r", with: "\n")
+        let text = tokens.map { $0.text }.joined()
         let range = NSRange(0..<text.count)
         
         let label = UILabel()
