@@ -21,7 +21,7 @@ public struct LabelBuilder: RTFBuild {
 	public func build(for tokens: [Token]) -> UIView {
         guard !tokens.isEmpty else { return UIView() }
         
-        let text = tokens.map { $0.text }.joined()
+        let text = tokens.map { $0.contains(type: "SP") ? "\n" : $0.text }.joined()
         let range = NSRange(0..<text.count)
         
         let label = UILabel()
@@ -53,6 +53,21 @@ public struct LabelBuilder: RTFBuild {
         
         var index = 0
         for token in tokens {
+            
+            if token.contains(type: "SP") {
+                let r = NSRange(index...(index + 1))
+                let p = NSMutableParagraphStyle()
+                let param = delegate?.parameter(for: token) ?? ""
+                let n = NumberFormatter().number(from: param)
+                let h: CGFloat = n == nil ? 0 : CGFloat(truncating: n!)
+                p.maximumLineHeight = h
+                p.minimumLineHeight = h
+                string.addAttribute(.paragraphStyle, value: p, range: r)
+                index += 1
+                continue
+            }
+            
+            
             let tokenRange = NSRange(index..<(index + token.text.count))
             
             

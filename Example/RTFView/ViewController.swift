@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         }
 		
 		// Trigger parsing and view building
-		rtfView.text = testString3
+		rtfView.text = "[S4]Erste Zeile [SP=2 /] Zweite Zeile[/S4]"
 	}
 
     override func didReceiveMemoryWarning() {
