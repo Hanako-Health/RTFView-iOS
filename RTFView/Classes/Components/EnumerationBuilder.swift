@@ -19,7 +19,7 @@ public struct EnumerationBuilder: RTFBuild {
 	public func build(for tokens: [Token]) -> UIView {
 		let tokens: [Token] = TokenUtil.splitByLine(tokens: tokens).enumerated().flatMap { (i, ts) -> [Token] in
 			let bullet = Token(text: "\(i + 1).\t", tags: [])
-			let newLine = Token(text: "\n", tags: [])
+			let newLine = Token(text: "", tags: [Tag(type: "SP", parameter: nil)])
 			return [bullet] + ts + [newLine]
 		}.dropLast()
 		return label.build(for: tokens)
