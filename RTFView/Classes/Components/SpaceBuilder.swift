@@ -19,6 +19,7 @@ public struct SpaceBuilder: RTFBuild {
 	
 	public func build(for tokens: [Token]) -> UIView {
         let formatter = NumberFormatter()
+        formatter.decimalSeparator = "."
         let space = tokens.map { t -> CGFloat in
             guard
                 let parameter = delegate?.parameter(for: t),
