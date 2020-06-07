@@ -18,7 +18,7 @@ public struct BulletBuilder: RTFBuild {
 	
 	public func build(for tokens: [Token]) -> UIView {
 		let tokens: [Token] = TokenUtil.splitByLine(tokens: tokens).flatMap { ts -> [Token] in
-            let bullet = Token(text: "\u{25CF}\t", tags: []) // 2022 2219 26AB 2B24
+            let bullet = Token(text: "\u{25CF}\t", tags: [])
 			let newLine = Token(text: "", tags: [Tag(type: "SP", parameter: nil)])
 			return [bullet] + ts + [newLine]
 		}.dropLast()
