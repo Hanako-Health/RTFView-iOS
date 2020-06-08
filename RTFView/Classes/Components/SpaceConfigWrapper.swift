@@ -7,11 +7,6 @@
 
 import Foundation
 
-
-/**
-    Asks delegate for spacing value between two tokens.
-    Needs children of view built by `wrapped` to be constrained.
- */
 public struct SpaceConfigWrapper: RTFBuild {
     private let wrapped: RTFBuild
     private weak var delegate: SpaceDelegate?
@@ -22,23 +17,20 @@ public struct SpaceConfigWrapper: RTFBuild {
     }
     
     public func build(for tokens: [Token]) -> UIView {
-        let view = wrapped.build(for: tokens)
-    
-        guard let delegate = delegate, tokens.count > 1 else { return view }
+        guard let delegate = delegate else { return wrapped.build(for: tokens) }
         
-        for i in 1..<tokens.count {
-            guard let space = delegate.space(from: tokens[i - 1], to: tokens[i]) else { continue }
-            let last = view.subviews[i - 1]
-            let current = view.subviews[i]
+        var output = [Token]()
+        for i in 0..<(tokens.count - 1) {
             
-            view.constraints.first {
-                guard let f = $0.firstItem as? UIView, let s = $0.secondItem as? UIView else { return false }
-                return (f == last && s == current) || (f == current && s == last)
-            }?.constant = space
+            if let spaceValue = delegate.space(from: tokens[i], to: tokens[i + 1]) {
+                let spaceToken = Token(text: "", tags: [Tag(type: "SP", parameter: "\(spaceValue)")])
+                output += [tokens[i], spaceToken]
+            } else {
+                output += [tokens[i]]
+            }
         }
-        
-        return view
+        output += [tokens.last!]
+        return wrapped.build(for: output)
     }
     
-
 }
