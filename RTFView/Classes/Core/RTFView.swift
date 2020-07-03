@@ -17,6 +17,7 @@ open class RTFView: UIView {
 	public var text: String = "" {
 		didSet {
 			self.clearView()
+			guard !text.isEmpty else { return }
             self.build(for: self.text)
 		}
 	}
