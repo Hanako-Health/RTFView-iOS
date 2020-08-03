@@ -1,5 +1,5 @@
 PODS:
-  - RTFView (0.1.5)
+  - RTFView (0.1.14)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
@@ -13,11 +13,13 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   RTFView:
     :path: "../"
+    :testspec:
+      - Tests
 
 SPEC CHECKSUMS:
-  RTFView: 91c1f4db631775fec527443746e3c8302e1fcfde
+  RTFView: 22cc205e92fb87b2470dc9694929fe5ded94e055
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 385edb7f40ae03707dc5e57d2040ad587e10517c
+PODFILE CHECKSUM: 8dbe11ae75b9cf24917afe558f72b5d4d88c05d4
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.0.beta.1

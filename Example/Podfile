@@ -1,14 +1,9 @@
 use_frameworks!
 
-platform :ios, 13.4
+platform :ios, 13.5
 
 target 'RTFView_Example' do
-  pod 'RTFView', :path => '../'
+	pod 'RTFView', :path => '../', :testspec => ['Tests']
 	pod 'SnapKit'
 
-  target 'RTFView_Tests' do
-    inherit! :search_paths
-
-    
-  end
 end

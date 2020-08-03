@@ -85,8 +85,8 @@ class TestRTFView: RTFView, RTFDelegate, SpaceDelegate {
 	private lazy var segment = SegmentBuilder(wrapped: selection, delegate: self)
 	private lazy var layout = ListLayoutWrapper(wrapped: segment)
     private lazy var spaceConfig = SpaceConfigWrapper(wrapped: layout, delegate: self)
-    override var root: RTFBuild { spaceConfig }
-    override var parser: RTFParser { FlatParser() }
+    override var root: Component { spaceConfig }
+    override var parser: Parser { FlatParser() }
     
 	// Delegate
 	
@@ -140,7 +140,7 @@ class TestRTFView: RTFView, RTFDelegate, SpaceDelegate {
 		return token.tags.first { types.contains($0.type) }
 	}
 	
-	private func createButton(image: UIImage) -> RTFBuild {
+	private func createButton(image: UIImage) -> Component {
 		CardWrapper(
 			wrapped: IndentWrapper(
 				wrapped: ButtonBuilder(
