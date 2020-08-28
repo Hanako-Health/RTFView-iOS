@@ -28,6 +28,7 @@ open class RTFView: UIView {
 	
 	private func build(for input: String) {
 		let parsed = parser.parse(input: text)
+		guard !parsed.isEmpty else { return }
 		let build = root.build(for: parsed)
 		build.translatesAutoresizingMaskIntoConstraints = false
 		addSubview(build)

@@ -9,10 +9,14 @@
 import Foundation
 
 public struct Tag: Hashable {
+	
 	public let type: String
 	public let parameter: String?
     
-    public init(type: String, parameter: String?) {
+    public init(
+		type: String,
+		parameter: String? = nil
+	) {
         self.type = type
         self.parameter = parameter
     }

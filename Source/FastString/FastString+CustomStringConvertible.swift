@@ -12,29 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-func ==(lhs: FastString, rhs: FastString) -> Bool {
-	if lhs.byteCount != rhs.byteCount {
-		return false
+extension FastString: CustomStringConvertible {
+	var description: String {
+		return String(cString: buffer.baseAddress!)
 	}
-	for i in 0..<lhs.byteCount {
-		if lhs.buffer[i] != rhs.buffer[i] {
-			return false
-		}
-	}
-	return true
 }
-
-func ==(lhs: FastString, rhs: String) -> Bool {
-	if lhs.byteCount != rhs.utf8.count {
-		return false
-	}
-	var index = rhs.utf8.startIndex
-	for i in 0..<lhs.byteCount {
-		if lhs.buffer[i] != rhs.utf8[index] {
-			return false
-		}
-		index = rhs.utf8.index(index, offsetBy: 1)
-	}
-	return true
-}
-

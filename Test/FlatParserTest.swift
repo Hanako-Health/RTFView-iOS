@@ -16,4 +16,10 @@ class FlatParserTest: ParserTest {
 	
 	override class var defaultTestSuite: XCTestSuite { XCTestSuite(forTestCaseClass: FlatParserTest.self) }
 	
+	func testPerformance() {
+		measure {
+			_ = parser.parse(input: measureInput)
+		}
+	}
+	
 }

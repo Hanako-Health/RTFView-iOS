@@ -9,10 +9,14 @@
 import Foundation
 
 public struct Token: Equatable {
+	
 	public let text: String
 	public let tags: [Tag]
     
-    public init(text: String, tags: [Tag]) {
+    public init(
+		text: String = "",
+		tags: [Tag] = []
+	) {
         self.text = text
         self.tags = tags
     }

@@ -20,13 +20,13 @@ struct TokenUtil {
 				.split(omittingEmptySubsequences: false, whereSeparator: closure)
 			
 			if let first = parts.first, !first.isEmpty {
-				let t = Token(text: first.string, tags: token.tags)
+				let t = Token(text: String(first), tags: token.tags)
 				output[output.count - 1] = output.last! + [t]
 			}
 			
 			output += parts.dropFirst()
 				.filter { !$0.isEmpty }
-				.map { [Token(text: $0.string, tags: token.tags)] }
+				.map { [Token(text: String($0), tags: token.tags)] }
 			
 			if let last = parts.dropFirst().last, last.isEmpty {
 				output += [[]]

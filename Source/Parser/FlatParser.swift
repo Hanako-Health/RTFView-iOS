@@ -1,91 +1,139 @@
-//
-//  Parser.swift
-//  RTFView
-//
-//  Created by Marco Seidel on 30.03.20.
-//  Copyright © 2020 Envidual. All rights reserved.
-//
+/**
+Parser.swift
+RTFView
 
-import Foundation
+Created by Marco Seidel on 30.03.20.
+Copyright © 2020 Envidual. All rights reserved.
 
+FlatParser is a basic parser implementation. There are two formats supported:
+
+1. Formatting with content: `[TAG]Content[/TAG]`
+2. Self-closing formatting: `[Tag /]`
+  This can be used for non-text like components, e. g. images.
+  Note: The whitespace after the tag type is mandatory.
+
+Though `[`, `]` and `/` are used as the special formatting characters in the example above, they're
+completely configurable, so it's also possible to parse XML like formats: `<TAG>Content</TAG>`
+Nethertheless, you should use a specialized XML parser for this type of parsing.
+
+Due to performance issues, it internally uses the FastString implementation operating with pointers rather than
+the actual String value type because of heavy copying.
+*/
 public class FlatParser: Parser {
-	static var TAG_START: Character = "["
-	static var TAG_END: Character = "]"
-	static var TAG_PARAMETER: Character = "="
-	static var TAG_CLOSE: Character = "/"
 	
-	public init() {}
+	var characters: Characters
+	
+	public init(
+		characters: Characters = .init()
+	) {
+		self.characters = characters
+	}
+	
+	
 	
 	public func parse(input: String) -> [Token] {
-        var output = [Token]()
-        var activeTags = [Tag]()
-        var content: String = ""
-        
-        
-        var tagIdentifier = ""
-        var tagParameter: String?
-        var tagInside = false
-        var tagClose = false
-        
-        var index = 0
-        while index < input.count {
-            let char = input[index] as Character
-            
-            
-            switch char {
-                case FlatParser.TAG_START:
-                    if !content.isEmpty {
-                        output += [Token(text: content, tags: activeTags)]
-                        content = ""
-                    }
-                    tagInside = true
-                case FlatParser.TAG_END:
-                    if tagInside {
-                        if tagClose {
-							if let indexToRemove: Int = activeTags.lastIndex(where: { $0.type == tagIdentifier }) {
-                                activeTags.remove(at: indexToRemove)
-                            }
-                        } else {
-                            let tag = Tag(type: tagIdentifier, parameter: tagParameter)
-                            activeTags.append(tag)
-                        }
-                    }
-                    
-                    tagIdentifier = ""
-                    tagParameter = nil
-                    tagClose = false
-                    tagInside = false
-                case FlatParser.TAG_CLOSE:
-                    if !tagIdentifier.isEmpty {
-                        let tag = Tag(type: tagIdentifier, parameter: tagParameter)
-                        activeTags.append(tag)
-                        output += [Token(text: "", tags: activeTags)]
-                    }
-                    tagClose = true
-                case FlatParser.TAG_PARAMETER:
-                    index += 1
-                    tagParameter = input.dropFirst(index).prefix { !($0.isWhitespace || $0 == FlatParser.TAG_END) }.string
-                    index += tagParameter!.count
-                    continue
-                default:
-                    if tagInside {
-                        if !char.isWhitespace {
-                            tagIdentifier += char.string
-                        }
-                    } else {
-                        content += char.string
-                    }
-            }
-            
-            index += 1
-        }
-        
-        if !content.isEmpty {
-            output += [Token(text: content, tags: .init())]
-        }
-        
-            
-        return output
-    }
-
+		let input = FastString(input)
+			
+		var output = [Token]()
+		var tags = [Tag]()
+		
+		var text = FastString()
+		var type = FastString()
+		var parameter: FastString? = nil
+		var isInside = false
+		var isClose = false
+		var isParameter = false
+		
+		for char in input.makeCharacterIterator() {
+			switch char {
+				case characters.start:
+					if text.characterCount != 0 {
+						let t = text.toString() ?? ""
+						let token = Token(text: t, tags: tags)
+						output.append(token)
+						text = FastString()
+					}
+					isInside = true
+				case characters.end:
+					if isInside {
+						if isClose {
+							let t = type.toString() ?? ""
+							let index = tags.lastIndex { $0.type == t }
+							if let index = index {
+								tags.remove(at: index)
+							}
+						} else {
+							let t = type.toString() ?? ""
+							let p = parameter?.toString()
+							let tag = Tag(type: t, parameter: p)
+							tags.append(tag)
+						}
+					}
+					
+					type = FastString()
+					parameter = nil
+					isParameter = false
+					isInside = false
+					isClose = false
+				case characters.close:
+					if type.characterCount != 0 {
+						let t = type.toString() ?? ""
+						let p = parameter?.toString()
+						let tag = Tag(type: t, parameter: p)
+						tags.append(tag)
+						
+						let token = Token(tags: tags)
+						output.append(token)
+					}
+					isClose = true
+				case characters.parameter:
+					isParameter = true
+				default:
+					if isParameter {
+						if !char.isWhitespace {
+							if parameter == nil {
+								parameter = FastString()
+							}
+							parameter!.append(char)
+						}
+					} else if isInside {
+						if !char.isWhitespace {
+							type.append(char)
+						}
+					} else {
+						text.append(char)
+					}
+			}
+		}
+		return output
+	}
+	
+	// MARK: - Characters declaration
+	
+	/**
+	Characters represents all the special characters used to detect formatting tags.
+	
+	Sigh, wish public was the default visibility.
+	*/
+	public struct Characters {
+		
+		public let start: Character
+		public let end: Character
+		public let parameter: Character
+		public let close: Character
+		
+		public init(
+			start: Character = "[",
+			end: Character = "]",
+			parameter: Character = "=",
+			close: Character = "/"
+		) {
+			self.start = start
+			self.end = end
+			self.parameter = parameter
+			self.close = close
+		}
+		
+	}
+	
 }
