@@ -3,7 +3,7 @@ use_frameworks!
 platform :ios, 13.5
 
 target 'RTFView_Example' do
-	pod 'RTFView', :path => '../', :testspec => ['Tests']
+	pod 'RTFView', :path => '../', :testspecs => ['Tests']
 	pod 'SnapKit'
 
 end
