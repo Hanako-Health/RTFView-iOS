@@ -29,8 +29,6 @@ public class FlatParser: Parser {
 		self.characters = characters
 	}
 	
-	
-	
 	public func parse(input: String) -> [Token] {
 		let input = FastString(input)
 			
@@ -105,35 +103,14 @@ public class FlatParser: Parser {
 					}
 			}
 		}
-		return output
-	}
-	
-	// MARK: - Characters declaration
-	
-	/**
-	Characters represents all the special characters used to detect formatting tags.
-	
-	Sigh, wish public was the default visibility.
-	*/
-	public struct Characters {
 		
-		public let start: Character
-		public let end: Character
-		public let parameter: Character
-		public let close: Character
-		
-		public init(
-			start: Character = "[",
-			end: Character = "]",
-			parameter: Character = "=",
-			close: Character = "/"
-		) {
-			self.start = start
-			self.end = end
-			self.parameter = parameter
-			self.close = close
+		if text.characterCount != 0 {
+			let t = text.toString() ?? ""
+			let token = Token(text: t)
+			output.append(token)
 		}
 		
+		return output
 	}
 	
 }

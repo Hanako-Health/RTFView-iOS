@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'RTFView'
-  s.version          = '0.2.0'
+  s.version          = '0.2.1'
   s.summary          = 'Custom view transforming text with formatting tags into a view tree'
 
   s.description      = <<-DESC
@@ -25,4 +25,3 @@ Pod::Spec.new do |s|
 	  test_spec.source_files = 'Test/**/*.swift'
   end
 end
-

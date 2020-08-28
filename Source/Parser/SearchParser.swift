@@ -9,13 +9,12 @@ import Foundation
 
 public class SearchParser: Parser {
 	
-	var characters: FlatParser.Characters
+	var characters: Characters
 	
-	public init(characters: FlatParser.Characters = .init()) {
+	public init(characters: Characters = .init()) {
 		self.characters = characters
 	}
-	
-	
+		
 	public func parse(input: String) -> [Token] {
 		let length = input.count
 		let input = FastString(input)
@@ -189,6 +188,5 @@ public class SearchParser: Parser {
 		
 		return output
 	}
-	
 	
 }
