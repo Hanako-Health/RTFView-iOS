@@ -8,7 +8,7 @@ Copyright © 2020 Envidual. All rights reserved.
 FlatParser is a basic parser implementation. There are two formats supported:
 
 1. Formatting with content: `[TAG]Content[/TAG]`
-2. Self-closing formatting: `[Tag /]`
+2. Self-closing formatting: `[TAG /]`
   This can be used for non-text like components, e. g. images.
   Note: The whitespace after the tag type is mandatory.
 
@@ -74,6 +74,8 @@ public class FlatParser: Parser {
 					isInside = false
 					isClose = false
 				case characters.close:
+					// Detect self closing tag
+					guard !isParameter else { continue }
 					if type.characterCount != 0 {
 						let t = type.toString() ?? ""
 						let p = parameter?.toString()
@@ -88,7 +90,9 @@ public class FlatParser: Parser {
 					isParameter = true
 				default:
 					if isParameter {
-						if !char.isWhitespace {
+						if char.isWhitespace {
+							isParameter = false
+						} else {
 							if parameter == nil {
 								parameter = FastString()
 							}
