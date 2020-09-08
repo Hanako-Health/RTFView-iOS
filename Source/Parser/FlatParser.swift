@@ -74,8 +74,13 @@ public class FlatParser: Parser {
 					isInside = false
 					isClose = false
 				case characters.close:
+					// Currently parsing a parameter so just append and skip
+					if isParameter {
+						parameter!.append(characters.close)
+						continue
+					}
+					
 					// Detect self closing tag
-					guard !isParameter else { continue }
 					if type.characterCount != 0 {
 						let t = type.toString() ?? ""
 						let p = parameter?.toString()
