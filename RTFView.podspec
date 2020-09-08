@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'RTFView'
-  s.version          = '0.2.2'
+  s.version          = '0.2.3'
   s.summary          = 'Custom view transforming text with formatting tags into a view tree'
 
   s.description      = <<-DESC
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   token list from the parser and passing it to the root component.
                        DESC
 
-  s.homepage         = 'https://www.envidual.com/'
+  s.homepage         = 'https://github.com/Envidual-Marco/RTFView.git'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Marco Seidel' => 'marco.seidel@envidual.com' }
   s.source           = { :git => 'https://github.com/Envidual-Marco/RTFView.git', :tag => s.version.to_s }

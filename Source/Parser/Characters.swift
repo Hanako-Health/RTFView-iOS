@@ -3,6 +3,7 @@ Characters.swift
 RTFView
 
 Created by Marco Seidel on 28.08.20.
+Copyright © 2020 Hanako. All rights reserved.
 
 Characters represents all the special characters used to detect formatting tags.
 Sigh, wish public was the default visibility.

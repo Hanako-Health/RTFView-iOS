@@ -1,8 +1,9 @@
 //
 //  TreeToken.swift
-//  Pods-RTFView_Example
+//  RTFView
 //
 //  Created by Marco Seidel on 12.06.20.
+//  Copyright © 2020 Hanako. All rights reserved.
 //
 
 import Foundation

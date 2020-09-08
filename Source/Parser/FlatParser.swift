@@ -3,7 +3,7 @@ Parser.swift
 RTFView
 
 Created by Marco Seidel on 30.03.20.
-Copyright © 2020 Envidual. All rights reserved.
+Copyright © 2020 Hanako. All rights reserved.
 
 FlatParser is a basic parser implementation. There are two formats supported:
 
