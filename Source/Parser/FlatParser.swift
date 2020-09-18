@@ -80,6 +80,12 @@ public class FlatParser: Parser {
 						continue
 					}
 					
+					// Currently in display text so just append and skip
+					if !isInside {
+						text.append(characters.close)
+						continue
+					}
+					
 					// Detect self closing tag
 					if type.characterCount != 0 {
 						let t = type.toString() ?? ""
