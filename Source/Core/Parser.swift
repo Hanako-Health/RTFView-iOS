@@ -10,6 +10,8 @@ import Foundation
 
 public protocol Parser {
 	
+	var characters: Characters { get set }
+	
 	func parse(input: String) -> [Token]
 	
 }

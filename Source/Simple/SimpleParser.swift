@@ -9,6 +9,8 @@
 import Foundation
 
 struct SimpleParser: Parser {
+	
+	var characters: Characters = .init()
     
     func parse(input: String) -> [Token] { [Token(text: input, tags: [])] }
     

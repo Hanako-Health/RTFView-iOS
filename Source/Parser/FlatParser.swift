@@ -21,7 +21,7 @@ the actual String value type because of heavy copying.
 */
 public class FlatParser: Parser {
 	
-	var characters: Characters
+	public var characters: Characters
 	
 	public init(
 		characters: Characters = .init()
@@ -98,6 +98,7 @@ public class FlatParser: Parser {
 					}
 					isClose = true
 				case characters.parameter:
+					guard !isParameter else { fallthrough }
 					isParameter = true
 				default:
 					if isParameter {

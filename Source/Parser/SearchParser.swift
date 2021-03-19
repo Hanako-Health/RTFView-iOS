@@ -10,7 +10,7 @@ import Foundation
 
 public class SearchParser: Parser {
 	
-	var characters: Characters
+	public var characters: Characters
 	
 	public init(characters: Characters = .init()) {
 		self.characters = characters

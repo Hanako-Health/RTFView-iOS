@@ -9,6 +9,8 @@
 import Foundation
 
 struct EmptyParser: Parser {
+	
+	var characters: Characters = .init()
     
     func parse(input: String) -> [Token] { [] }
     

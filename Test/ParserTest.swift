@@ -14,7 +14,7 @@ class ParserTest: XCTestCase {
 	
 	override class var defaultTestSuite: XCTestSuite { XCTestSuite(name: "Tests for protocols are excluded.") }
 	
-	var parser: Parser! { fatalError("No Parser instance provided!") }
+	var parser: Parser! { fatalError("No parser instance provided!") }
 	
 	let measureInput = """
         [S2]
@@ -76,6 +76,24 @@ class ParserTest: XCTestCase {
 		combinations.forEach {
 			XCTAssertNoThrow(parser.parse(input: $0))
 		}
+	}
+	
+	func testParameterContainingIdentifier() {
+		// Arrange
+		let characters = parser.characters
+		let tag = "TAG"
+		let parameter = "START" + String(characters.parameter) + "END"
+		let input = String(characters.start) + tag + String(characters.parameter) + parameter
+			+ String(characters.end) + "Link" + String(characters.start) + String(characters.close) + tag + String(characters.end)
+		
+		// Act
+		let tokens = parser.parse(input: input)
+		
+		// Assert
+		XCTAssertEqual(tokens.count, 1, "Should be one token.")
+		XCTAssertEqual(tokens.first?.tags.count, 1, "Token should contain only one tag.")
+		XCTAssertEqual(tokens.first?.tags.first?.type, tag, "Token type mismatching with input.")
+		XCTAssertEqual(tokens.first?.tags.first?.parameter, parameter, "Token type mismatching with input.")
 	}
 	
 }
