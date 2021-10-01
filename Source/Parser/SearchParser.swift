@@ -65,8 +65,7 @@ public class SearchParser: Parser {
 				let type = input.subString(range: range).toString() ?? ""
 				
 				// Find index in reverse and save for delete
-				if let indexTag = tags.lastIndex(where: {
-					$0 != nil && $0!.type == type }) {
+				if let indexTag = tags.lastIndex(where: { $0.type == type }) {
 					
 					operations.append((0, indexStart, indexTag))
 				}
@@ -129,9 +128,7 @@ public class SearchParser: Parser {
 				// Find or insert
 				let indexTag: Int
 				
-				if let i = tags.firstIndex(where: {
-					$0 != nil && $0!.type == type && $0!.parameter == parameter
-				}) {
+				if let i = tags.firstIndex(where: { $0.type == type && $0.parameter == parameter }) {
 					indexTag = i
 				} else {
 					let tag = Tag(type: type, parameter: parameter)
@@ -162,7 +159,7 @@ public class SearchParser: Parser {
 					stack.append(indexTag)
 				} else if op == 2 { // Autoclose
 					stack.append(indexTag)
-					let tags = stack.compactMap { $0 == nil ? nil : tags[$0!] }
+					let tags = stack.map { tags[$0] }
 					let token = Token(tags: tags)
 					output.append(token)
 					stack.removeLast()
@@ -172,7 +169,7 @@ public class SearchParser: Parser {
 			if indexStart < indexEnd {
 				let range = indexStart..<indexEnd
 				let content = input.subString(range: range).toString() ?? ""
-				let tags = stack.compactMap { $0 == nil ? nil : tags[$0!] }
+				let tags = stack.map { tags[$0] }
 				let token = Token(text: content, tags: tags)
 				output.append(token)
 			}
